@@ -148,9 +148,10 @@ const gc=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim(
 function mk(id,cfg){const el=$(id);if(!el)return;
   if(typeof Chart==="undefined"){el.parentNode.innerHTML='<p class="k">Charts need the Chart.js library, which could not be loaded (you may be offline). Transactions and balances still work.</p>';return}
   Chart.defaults.color=gc("--mut");const tp=Chart.defaults.plugins.tooltip;tp.backgroundColor=gc("--nav");tp.titleColor=tp.bodyColor=gc("--tx");tp.borderColor=gc("--line");tp.borderWidth=1;Chart.defaults.borderColor=gc("--line");Chart.defaults.font.family="Inter,system-ui,sans-serif";CH[id]=new Chart(el,cfg)}
+const PD=["#4E9AF1","#F2A33A","#E8636B","#3FBFA5","#9B7BE0","#E3C84B","#E77FB4","#6CC24A","#C98A5B","#5FC2D9"];
 const PX=["#D96C70","#B25659","#E59A9D","#8C4446","#EFC0C2","#6A3334"],PI=["#32A879","#288660","#6CC5A0","#1E6648","#A5DAC4","#164B35"];
 function bd(ty){const o={};S.tx.forEach(t=>{if(t.type===ty&&(Q.bp!=="m"||t.date.startsWith(M)))o[t.head]=(o[t.head]||0)+t.amt});
-  const all=Object.entries(o).sort((a,b)=>b[1]-a[1]),total=all.reduce((a,r)=>a+r[1],0),pal=ty==="Income"?PI:PX;
+  const all=Object.entries(o).sort((a,b)=>b[1]-a[1]),total=all.reduce((a,r)=>a+r[1],0),pal=PD;
   let rows=all.map((r,i)=>[r[0],r[1],pal[i%pal.length]]);
   if(Q.tn==="5"&&rows.length>5){const rest=rows.slice(5).reduce((a,r)=>a+r[1],0);rows=rows.slice(0,5);rows.push(["Other categories",rest,"#94a3b8"])}
   return{rows,total}}
