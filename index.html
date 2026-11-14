@@ -87,6 +87,13 @@ tr:hover td{background:var(--hov)}
 #tr-ov{position:fixed;inset:0;z-index:1000}#tr-ov.dim{background:rgba(0,0,0,.62)}
 #tr-hl{position:fixed;z-index:1001;pointer-events:none;border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.62),0 0 0 2px var(--focus);transition:top .25s ease,left .25s ease,width .25s ease,height .25s ease,opacity .2s ease}
 #tr-tip{position:fixed;z-index:1002;width:min(360px,calc(100vw - 24px));background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:16px;transition:top .25s ease,left .25s ease,opacity .2s ease}
+#tr-tip{max-height:calc(100vh - 24px);overflow:auto}#tr-tip.wide{width:min(440px,calc(100vw - 24px))}
+#tr-sh i{position:fixed;z-index:1000;display:none}
+.tr-welcome{text-align:center}.tr-welcome .tr-ic{margin:0 auto}.tr-tag{font-weight:600;color:var(--tx)}.tr-welcome p{color:var(--mut)}.tr-go{width:100%;justify-content:center;margin-top:8px;padding:11px 14px;font-size:15px}
+.tr-li-wrap{display:flex;flex-direction:column;gap:6px;margin-top:10px}.tr-li{display:flex;justify-content:space-between;align-items:baseline;gap:4px 10px;flex-wrap:wrap;font-size:13px}.tr-li .dot{margin-right:6px}
+.tr-mock{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.tr-mock label{font-size:11px;margin:0 0 2px}
+.mf{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:13px;min-height:34px;overflow-wrap:anywhere}
+.tr-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--hov);color:var(--mut)}
 #tr-md{position:fixed;inset:0;z-index:1003;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.62)}#tr-md[hidden],#tr[hidden]{display:none}
 .tr-card{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.35);max-width:460px;width:100%;padding:24px;max-height:calc(100vh - 32px);overflow:auto}
 .tr-card h2{font-size:20px;margin:10px 0 8px}.tr-card p{margin:0 0 10px;line-height:1.55}
@@ -213,7 +220,7 @@ function xdetail(k){const L=S.tx.filter(t=>t.type==="Expense"&&t.date.startsWith
 // Dashboard
 function vDash(){const inc=tot(M,"Income"),exp=tot(M,"Expense"),net=inc-exp,P1=prevM(M),pi=tot(P1,"Income"),pe=tot(P1,"Expense"),pn=pi-pe;
   const last=M===TODAY.slice(0,7)?TODAY:M+"-"+dim(M),cb=bal(last),tfr=tot(M,"Contra"),nwv=netWorth(last);
-  const ban=S.tx.some(t=>t.s)?`<div class="card">Sample data for Nov and Dec 2026 is loaded so you can see how the app works. <button class="btn" onclick="dropSample()">Remove sample data</button></div>`:"";
+  const ban=S.tx.some(t=>t.s)?`<div class="card" id="sample-banner">Sample data for Nov and Dec 2026 is loaded so you can see how the app works. <button class="btn" onclick="dropSample()">Remove sample data</button></div>`:"";
   const k=(n,v,c,x)=>`<div class="kpi"><div class="k">${n}</div><div class="v ${c}">${v}</div>${x||""}</div>`;
   const over=sec("Financial overview","gauge",`<div class="grid ov">${k("Total income",fmt(inc),"inc",dl(inc,pi,"prev. month"))}${k("Total expenses",fmt(exp),"exp",dl(exp,pe,"prev. month"))}${k("Transfers",fmt(tfr),"tr")}${k("Net worth",nwv===null?"–":fmt(nwv),"")}${k("Net savings",fmt(net),"",dl(net,pn,"prev. month"))}${k("Savings rate",pct(div(net,inc)),"")}${k("Closing bank",q(cb.xb,cb.b),"")}${k("Closing cash",q(cb.xc,cb.c),"")}</div>`);
   const ks=series(12,Q.ty),n=ks.length,c=(f,i)=>f(ks[i]),w=Q.ty==="y"?"prev. year":"prev. month";
@@ -400,83 +407,65 @@ function seed(){const T=[["11-01","Income","Job","Bank",55000],["11-01","Expense
   ["12-01","Income","Job","Bank",55000],["12-01","Expense","Netflix","Bank",649],["12-02","Expense","SIP/Shares","Bank",5000],["12-04","Expense","Family","Bank",4000],["12-07","Expense","Others","Cash",600],["12-10","Income","Family","Cash",3000],["12-15","Expense","Trip","Bank",8500],["12-20","Expense","Party","Cash",2500],["12-24","Income","Others","Bank",2000],["12-28","Expense","Family","Cash",1800]];
   T.forEach(([d,t,h,m,a])=>S.tx.push({id:S.id++,date:"2026-"+d,type:t,head:h,mode:m,amt:a,note:"Sample",s:1}));S.set.ob=40000;S.set.oc=3000;S.set.obd="2026-11-01";S.set.ocd="2026-11-01";S.set.ou=TODAY;save()}
 function dropSample(){if(confirm("Remove the sample entries and reset opening balances to zero?")){S.tx=S.tx.filter(t=>!t.s);S.set.ob=0;S.set.oc=0;S.set.obd="";S.set.ocd="";save();render()}}
-// ---------- Interactive walkthrough: display only; reads no financial figures and writes only its own flag
-const nv=(t,h,p)=>({t,s:`#nav [data-t="${t}"]`,nav:1,h,p});
-const TS=[
- nv("dash","Dashboard","Your financial summary for the selected month: income, expenses, savings, balances, net worth and charts. This page opens first."),
- {t:"dash",s:".ctl",h:"Month, search and theme",p:"Choose the month that the Dashboard, Transactions, Cash Flow and Reports show. Type in Search transactions and press Enter to look through every month. The moon or sun button switches between light and dark mode."},
- {t:"dash",s:'[data-s="Financial overview"]',h:"Financial overview",p:"Cards for the selected month: total income, total expenses, transfers, net worth, net savings, savings rate and your closing bank and cash balances. Transfers between bank and cash are not income or expenses. A dash (–) means nil."},
- {t:"dash",s:'[data-s="Financial trends"] .two',h:"Financial trends",p:"Monthly expenses can show 6 months, 12 months or all months; click a bar to see that month’s expenses. Income vs expenses switches between monthly and yearly. A cumulative savings chart sits below. Charts need an internet connection to load."},
- {t:"dash",s:'[data-s="Financial breakdown"] .two',h:"Financial breakdown",p:"Two doughnut charts show where you spend the most and where you earn the most, using your categories. Switch between this month and all time, and between the top 5 and all categories."},
- {t:"dash",s:'[data-s="Balance sheet snapshot and net worth trend"]',h:"Balance sheet snapshot",p:"A quick look at closing bank, closing cash, total assets, total liabilities and net worth, with a net worth trend chart. Press Open to see the full Balance Sheet."},
- {t:"dash",s:'[data-s="Upcoming transactions"]',h:"Upcoming transactions",p:"Recurring items that are due appear here, with those coming in the next 30 days. Press Post to add one to your transactions, or Post all due. Nothing is added automatically."},
- nv("tx","Transactions","Add and manage every income, expense and bank–cash transfer."),
- {t:"tx",s:"#fa",up:".card",h:"Add a transaction",p:"Enter the date, choose Income, Expense or Contra / Transfer, pick a category and Bank or Cash, type the amount, add an optional note and press Add. For a Contra / Transfer, choose the account the money leaves; the other account receives it. This tour adds nothing."},
- {t:"tx",s:'#app [aria-label="Filters"]',up:"span",h:"Search and filters",p:"The magnifier opens a search box for note, category or amount. The funnel opens filters: type, Bank or Cash, category, date range and minimum or maximum amount. Filters work together, and Clear filters resets them."},
- {t:"tx",s:"#tsum",h:"Your transaction list",p:"Shows how many entries match, with totals for income, expenses and transfers. The list covers the selected month unless you set a date range or search from the top bar. Each row has Edit and Delete icons."},
- nv("cf","Cash Flow","A day-by-day statement of your bank and cash balances."),
- {t:"cf",s:"#app .card",h:"Daily cash flow statement",p:"For every day of the selected month: opening balance, income, expenses, transfers and closing balance for Bank and Cash. Each day’s closing balance becomes the next day’s opening balance. A dash (–) means nil, or no balance before your opening balance date."},
- nv("bs","Balance Sheet","What you own and what you owe on a chosen date."),
- {t:"bs",s:"#app input[type=date]",up:".card",h:"Choose the date",p:"Pick the date for the statement. Balances are available from the opening balance dates you set in Settings."},
- {t:"bs",s:".bs-grid",up:".card",h:"Assets, liabilities and net worth",p:"Assets are on the left and liabilities on the right, with net worth underneath. The heads shown, and any notes under them, are chosen in Settings under Balance sheet configuration."},
- nv("inv","Investments","Money you have put into SIP and shares."),
- {t:"inv",s:"#app .grid.card",h:"Investment summary",p:"Total invested in the SIP/Shares category, this month’s contribution and the number of entries. Below are your investment heads from the Balance Sheet, monthly contributions and recent investment entries."},
- nv("rec","Recurring Transactions","Schedules for regular income or expenses such as SIPs, rent or subscriptions."),
- {t:"rec",s:"#rn",up:".card",h:"Create a schedule",p:"Give it a name, choose Income or Expense, category, amount and Bank or Cash, then pick how often it repeats (daily to yearly). The start date is the first occurrence. You can add an optional end date; the next due date is calculated for you."},
- {t:"rec",s:"#app > .card:nth-child(2)",h:"Your schedules",p:"Each schedule shows its next due date and status. Post adds a due entry to your transactions after you press it, and Post all due adds every due entry. You can also pause, edit or delete a schedule. Nothing is posted automatically."},
- nv("rep","Reports","Monthly, yearly and category summaries."),
- {t:"rep",s:"#app > .card:first-child",h:"Monthly summary",p:"Income, expenses, transfers, net savings and savings rate for the last 12 months, followed by a yearly summary and the income and expense categories for the selected month."},
- nv("set","Settings","Set up your balances, categories, appearance and backups."),
- {t:"set",s:"#ob",up:".card",h:"Opening balances",p:"Enter your opening Bank and Cash balances, each with the date it applies from. Only transactions on or after that date count for that account. Press Save opening balances after changing them."},
- {t:"set",s:"#ci",up:".card",h:"Income and expense categories",p:"Type your income sources and expense categories separated by commas, then press Save. They appear in the Category list when you add a transaction. Keep SIP/Shares if you want it counted as an investment."},
- {t:"set",s:"#add_a",up:".card",h:"Balance sheet configuration",p:"Choose assets and liabilities from the dropdown lists, link each one to an existing balance, add notes, and reorder them with the arrows. Each balance can be used by only one head, so nothing is counted twice."},
- {t:"set",s:'.set select[onchange^="setTheme"]',up:".card",h:"Theme",p:"Choose Light Mode, Dark Blue Mode or System Default. Your choice is remembered on this device."},
- {t:"set",s:"#bk",up:".card",h:"Backup and restore",p:"Press Show backup to copy your data as text, and paste a saved backup then press Restore to bring it back. Your data is stored only in this browser, so back it up regularly."},
- {t:"set",s:"#tourbtn",up:".card",h:"Preferences and replay",p:"Choose which page opens first, erase all data, or press Replay Interactive Walkthrough to see this tour again whenever you like."}
-];
-let TA=0,TI=0,T0="dash",TT=0;
-const TK2="mf_tour",tourSt=()=>{try{return localStorage.getItem(TK2)}catch(e){return null}},tourSet=v=>{try{localStorage.setItem(TK2,v)}catch(e){}};
+// ---------- Onboarding: Welcome popup on every visit + six-step walkthrough (first visit only; replay from Settings)
+// Reads no financial figures and writes only its own flag (mf_tour). mf_tour values: pending, started, skipped, done (older "shown" is treated as handled).
+const tourSt=()=>{try{return localStorage.getItem("mf_tour")}catch(e){return null}},tourSet=v=>{try{localStorage.setItem("mf_tour",v)}catch(e){}};
 const clampN=(v,a,b)=>Math.max(a,Math.min(b,v));
-function trDom(){if($("tr"))return;document.body.insertAdjacentHTML("beforeend",'<div id="tr" hidden><div id="tr-ov"></div><div id="tr-hl"></div><div id="tr-tip" role="dialog" aria-modal="true" aria-live="polite"></div></div><div id="tr-md" hidden></div>');
-  addEventListener("resize",trRe);addEventListener("scroll",trRe,true);addEventListener("keydown",trKey)}
-function trModal(k,html){trDom();const m=$("tr-md");m.dataset.k=k;m.innerHTML=`<div class="tr-card" role="dialog" aria-modal="true">${html}</div>`;m.hidden=false;const b=m.querySelector(".btn.p");if(b)b.focus()}
-function trWelcome(){tourSet("shown");trModal("w",`<div class="tr-ic">${ic("wallet",26)}</div><h2>Welcome to Finance Tracker</h2><p>Finance Tracker helps you record your income, expenses and transfers between bank and cash, and shows your balances, savings, net worth and trends in one place. Everything is stored privately in this browser.</p><p>Take a short interactive walkthrough of every page, or skip it and replay it later from Settings.</p>${S.tx.some(t=>t.s)?'<p class="k">Sample data for Nov and Dec 2026 is loaded so you can explore. You can remove it from the Dashboard at any time.</p>':""}<div class="tr-btns"><button class="btn" onclick="trSkipW()">Skip for Now</button><button class="btn p" onclick="startTour()">Start Interactive Walkthrough</button></div>`)}
-function trSkipW(){tourSet("skipped");$("tr-md").hidden=true}
-function startTour(){trDom();$("tr-md").hidden=true;TA=1;T0=V;$("tr").hidden=false;trShow(0)}
+const li=(c,a,b)=>`<div class="tr-li"><span><i class="dot" style="background:${c}"></i><b>${a}</b></span>${b?`<span class="k">${b}</span>`:""}</div>`;
+const TS=[
+ {t:"dash",c:1,h:"Welcome to Finance Tracker",p:()=>"Your personal finance dashboard — Simple, organised and clear."},
+ {t:"dash",sa:".ov .kpi",n:4,h:"Your Financial Overview",p:()=>"Get a quick snapshot of your financial position with your key financial figures in one place.",x:()=>`<div class="tr-li-wrap">${li("var(--inc)","Total Income")}${li("var(--exp)","Total Expenses")}${li("var(--tr)","Transfers")}${li("var(--tx)","Net Worth")}</div>`},
+ {t:"tx",c:1,demo:1,h:"Adding a Transaction",p:()=>"Open Transactions, fill in a few fields and press Add. Here is an example.",x:()=>`<div class="tr-mock"><div><label>Date</label><div class="mf">${dmy(TODAY)}</div></div><div><label>Type</label><div class="mf">Expense</div></div><div><label>Category</label><div class="mf">Family</div></div><div><label>Bank or Cash</label><div class="mf">Cash</div></div><div><label>Amount (₹)</label><div class="mf">500</div></div><div><label>Note (optional)</label><div class="mf">Groceries</div></div></div>
+  <div class="tr-li-wrap">${li("var(--inc)","Income","Money you receive")}${li("var(--exp)","Expense","Money you spend")}${li("var(--tr)","Contra / Transfer","Moves money between Bank and Cash; not income or expense")}</div><p class="k" style="margin-top:8px"><span class="tr-badge">Example only</span> Nothing is saved.</p>`},
+ {t:"bs",s:".bs-grid",up:".card",h:"Understand Your Financial Position",p:()=>"Understand what you own, what you owe and your overall financial position.",x:()=>`<div class="tr-li-wrap">${li("var(--inc)","Assets","What you own")}${li("var(--exp)","Liabilities","What you owe")}${li("var(--tx)","Net Worth","Assets minus liabilities")}</div>`},
+ {t:"set",s:'#nav [data-t="set"]',nav:1,h:"Make Finance Tracker Your Own",p:()=>"Customise your tracker, configure your starting balances and keep your data backed up.",x:()=>`<div class="tr-li-wrap">${li("var(--tx)","Opening balances")}${li("var(--tx)","Income and expense categories")}${li("var(--tx)","Theme preferences")}${li("var(--tx)","Data backup and restore")}</div>`},
+ {t:"dash",s:"#sample-banner",live:1,h:"You’re Almost Ready!",p:()=>$("sample-banner")?"Sample transactions are included to help you explore Finance Tracker. Once you are comfortable, remove the sample data from here and start managing your own finances.":"There is no sample data loaded, so everything you see is your own records. You are ready to start.",x:()=>$("sample-banner")?'<p class="k" style="margin-top:8px">Removing sample data is optional. You can also keep it and carry on.</p>':""}
+];
+let TA=0,TI=0,TT=0,TR=0,TFIRST=false;
+function trDom(){if($("tr"))return;document.body.insertAdjacentHTML("beforeend",'<div id="tr" hidden><div id="tr-ov"></div><div id="tr-sh"><i></i><i></i><i></i><i></i></div><div id="tr-hl"></div><div id="tr-tip" role="dialog" aria-modal="true" aria-live="polite"></div></div><div id="tr-md" hidden></div>');
+  addEventListener("resize",trRe);addEventListener("scroll",trRe,true);addEventListener("keydown",trKey);
+  new MutationObserver(()=>{if(TA){cancelAnimationFrame(TR);TR=requestAnimationFrame(()=>{if(TA){trTip();trPlace(true)}})}}).observe($("app"),{childList:true})}
+function trModal(k,html){trDom();const m=$("tr-md");m.dataset.k=k;m.innerHTML=`<div class="tr-card" role="dialog" aria-modal="true">${html}</div>`;m.hidden=false;const b=m.querySelector(".btn.p");if(b)b.focus({preventScroll:true})}
+// Welcome popup: every visit. Only a first-time visitor is then offered the walkthrough.
+function trBoot(){if(!document.body)return;const st=tourSt();if(st===null&&!had){tourSet("pending");TFIRST=true}else if(st==="pending")TFIRST=true;
+  trModal("w",`<div class="tr-welcome"><div class="tr-ic">${ic("wallet",26)}</div><h2>Your Personal Finance Dashboard</h2><p class="tr-tag">Simple, organised and clear.</p><p>Manage your income, expenses, savings and financial position — all in one place.</p><button class="btn p tr-go" onclick="trGo()">Let’s Begin</button></div>`)}
+function trGo(){$("tr-md").hidden=true;if(TFIRST){TFIRST=false;startTour()}}
+function startTour(){trDom();$("tr-md").hidden=true;const st=tourSt();if(st===null||st==="pending")tourSet("started");TFIRST=false;TA=1;$("tr").hidden=false;trShow(0)}
 function trShow(i){TI=i;const s=TS[i],nw=innerWidth<=860;
-  if(s.t&&V!==s.t){V=s.t;render();window.scrollTo(0,0)}
-  drawer(s.nav&&nw?1:0);
-  const L=TS.length;$("tr-tip").innerHTML=`<div class="tr-top"><span>Step ${i+1} of ${L}</span><button class="tr-exit" onclick="trExit()" aria-label="Exit Tour">${ic("x",14)} Exit Tour</button></div><div class="tr-bar"><i style="width:${(i+1)/L*100}%"></i></div><h3>${esc(s.h)}</h3><p>${esc(s.p)}</p><div class="tr-btns"><button class="btn" onclick="trSkip()">Skip Tour</button><span><button class="btn" onclick="trBack()" ${i?"":"disabled"}>Back</button><button class="btn p" id="tr-next" onclick="trNext()">${i===L-1?"Finish":"Next"}</button></span></div>`;
-  $("tr-hl").style.opacity=0;clearTimeout(TT);TT=setTimeout(()=>{trPlace(false);const n=$("tr-next");if(n)n.focus({preventScroll:true})},s.nav&&nw?260:70)}
-function trPlace(keep){if(!TA)return;const s=TS[TI],tip=$("tr-tip"),hl=$("tr-hl"),ov=$("tr-ov"),vw=innerWidth,vh=innerHeight;
-  let el=s.s?document.querySelector(s.s):null;if(el&&s.up)el=el.closest(s.up)||el;
-  if(el&&el.tagName==="DETAILS")el.open=true;
-  const tw=tip.offsetWidth,th=tip.offsetHeight;
-  if(!el||!el.getClientRects().length){hl.style.opacity=0;ov.classList.add("dim");tip.style.left=Math.max(12,(vw-tw)/2)+"px";tip.style.top=Math.max(12,(vh-th)/2)+"px";return}
-  ov.classList.remove("dim");
-  let r=el.getBoundingClientRect();
-  if(!keep&&(r.top<8||r.bottom>vh-8)){el.scrollIntoView({block:r.height>vh*.6?"start":"center"});r=el.getBoundingClientRect()}
+  if(V!==s.t){V=s.t;render();window.scrollTo(0,0)}
+  drawer(s.nav&&nw?1:0);trTip();$("tr-hl").style.opacity=0;
+  clearTimeout(TT);TT=setTimeout(()=>{trPlace(false);const n=$("tr-next");if(n)n.focus({preventScroll:true})},s.nav&&nw?260:70)}
+function trTip(){const s=TS[TI],L=TS.length,tip=$("tr-tip");tip.className=s.demo?"wide":"";
+  tip.innerHTML=`<div class="tr-top"><span>Step ${TI+1} of ${L}</span></div><div class="tr-bar"><i style="width:${(TI+1)/L*100}%"></i></div><h3>${esc(s.h)}</h3><p>${esc(s.p())}</p>${s.x?s.x():""}<div class="tr-btns"><button class="btn" onclick="trSkip()">Skip Tour</button><span>${TI?'<button class="btn" onclick="trBack()">Back</button>':""}<button class="btn p" id="tr-next" onclick="trNext()">${TI?"Next":"Let’s Begin"}</button></span></div>`}
+function trTargets(s){let els=[];if(s.sa)els=[...document.querySelectorAll(s.sa)].slice(0,s.n||99);else if(s.s){let e=document.querySelector(s.s);if(e&&s.up)e=e.closest(s.up)||e;if(e)els=[e]}
+  els=els.filter(e=>e.getClientRects().length);return els.length?els:null}
+const trRect=els=>{const rs=els.map(e=>e.getBoundingClientRect()),l=Math.min(...rs.map(r=>r.left)),t=Math.min(...rs.map(r=>r.top)),r=Math.max(...rs.map(r=>r.right)),b=Math.max(...rs.map(r=>r.bottom));return{left:l,top:t,right:r,bottom:b,width:r-l,height:b-t}};
+function trPlace(keep){if(!TA)return;const s=TS[TI],tip=$("tr-tip"),hl=$("tr-hl"),ov=$("tr-ov"),sh=[...$("tr-sh").children],vw=innerWidth,vh=innerHeight,tw=tip.offsetWidth,th=tip.offsetHeight,els=s.c?null:trTargets(s);
+  sh.forEach(x=>x.style.display="none");
+  if(!els){hl.style.opacity=0;ov.style.display="block";ov.classList.add("dim");tip.style.left=Math.max(12,(vw-tw)/2)+"px";tip.style.top=Math.max(12,(vh-th)/2)+"px";return}
+  let r=trRect(els);
+  if(!keep&&(r.top<8||r.bottom>vh-8)){els[0].scrollIntoView({block:r.height>vh*.6?"start":"center"});r=trRect(els)}
   const g=14,pd=6,hb=r=>({top:Math.max(r.top-pd,4),left:Math.max(r.left-pd,4),width:Math.min(r.width+2*pd,vw-8),height:r.height+2*pd});
   let hr=hb(r);const cx=clampN(r.left+r.width/2-tw/2,12,vw-tw-12),cy=clampN(r.top+r.height/2-th/2,12,vh-th-12);
   const O={bottom:{top:hr.top+hr.height+g,left:cx},top:{top:hr.top-g-th,left:cx},right:{top:cy,left:hr.left+hr.width+g},left:{top:cy,left:hr.left-g-tw}};
   const fit=p=>p.top>=8&&p.top+th<=vh-8&&p.left>=8&&p.left+tw<=vw-8;let pos=null;
   for(const k of vw>700?["bottom","right","top","left"]:["bottom","top"])if(fit(O[k])){pos=O[k];break}
-  if(!pos){if(!keep){scrollBy(0,r.top-16);r=el.getBoundingClientRect()}
-    hr=hb(r);hr.height=Math.max(60,Math.min(hr.height,vh-th-g-24-Math.max(hr.top,0)));
-    pos={top:Math.min(hr.top+hr.height+g,vh-th-8),left:cx}}
-  hl.style.cssText=`top:${hr.top}px;left:${hr.left}px;width:${hr.width}px;height:${hr.height}px;opacity:1`;tip.style.top=pos.top+"px";tip.style.left=pos.left+"px"}
-let TR=0;function trRe(){if(!TA)return;cancelAnimationFrame(TR);TR=requestAnimationFrame(()=>trPlace(true))}
-function trNext(){TI<TS.length-1?trShow(TI+1):trFinal("done")}
+  if(!pos){if(!keep){scrollBy(0,r.top-16);r=trRect(els)}hr=hb(r);hr.height=Math.max(60,Math.min(hr.height,vh-th-g-24-Math.max(hr.top,0)));pos={top:Math.min(hr.top+hr.height+g,vh-th-8),left:cx}}
+  hl.style.cssText=`top:${hr.top}px;left:${hr.left}px;width:${hr.width}px;height:${hr.height}px;opacity:1`;tip.style.top=pos.top+"px";tip.style.left=pos.left+"px";
+  if(s.live){ov.style.display="none";const b=hr.top+hr.height,rt=hr.left+hr.width,F=[[0,0,vw,hr.top],[0,b,vw,vh-b],[0,hr.top,hr.left,hr.height],[rt,hr.top,vw-rt,hr.height]];sh.forEach((x,i)=>{x.style.cssText=`display:block;left:${F[i][0]}px;top:${F[i][1]}px;width:${F[i][2]}px;height:${F[i][3]}px`})}
+  else{ov.style.display="block";ov.classList.remove("dim")}}
+function trRe(){if(!TA)return;cancelAnimationFrame(TR);TR=requestAnimationFrame(()=>trPlace(true))}
+function trNext(){TI<TS.length-1?trShow(TI+1):trFinal()}
 function trBack(){if(TI>0)trShow(TI-1)}
-function trSkip(){trFinal("skipped")}
 function trHide(){TA=0;clearTimeout(TT);$("tr").hidden=true;drawer(0)}
-function trExit(){trHide();if(tourSt()!=="done")tourSet("skipped");if(V!==T0){V=T0;render();window.scrollTo(0,0)}}
-function trFinal(st){trHide();if(tourSt()!=="done"||st==="done")tourSet(st);trModal("f",`<div class="tr-ic">${ic("check",26)}</div><h2>You’re all set!</h2><p>You now know how to use your Finance Tracker.</p><div class="tr-btns"><span></span><button class="btn p" onclick="trDone()">Start Using Website</button></div>`)}
-function trDone(){$("tr-md").hidden=true;go("dash")}
-function trKey(e){const m=$("tr-md");if(m&&!m.hidden){if(e.key==="Escape")m.dataset.k==="w"?trSkipW():trDone();return}
-  if(!TA)return;if(e.key==="Escape")trExit();else if(e.key==="ArrowRight")trNext();else if(e.key==="ArrowLeft")trBack()}
+function trDash(){if(V!=="dash"){V="dash";render()}window.scrollTo(0,0)}
+function trSkip(){trHide();if(tourSt()!=="done")tourSet("skipped");trDash()}
+function trFinal(){trHide();tourSet("done");trDash();trModal("f",`<div class="tr-welcome"><div class="tr-ic">${ic("check",26)}</div><h2>You’re All Set!</h2><p>Your Finance Tracker is ready. Start managing your finances your way.</p><button class="btn p tr-go" onclick="trDone()">Finish</button></div>`)}
+function trDone(){$("tr-md").hidden=true;trDash()}
+function trKey(e){const m=$("tr-md");if(m&&!m.hidden){if(e.key==="Escape")m.dataset.k==="w"?trGo():trDone();return}
+  if(!TA)return;if(e.key==="Escape")trSkip();else if(e.key==="ArrowRight")trNext();else if(e.key==="ArrowLeft")trBack()}
 ensureBSC();
 if(!had)seed();
 render();
-if(!had&&!tourSt()&&typeof setTimeout==="function")setTimeout(trWelcome,350);
+trBoot();
 </script></body></html>
