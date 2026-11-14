@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
+<script>try{var t=localStorage.getItem("mf_theme"),d=document.documentElement;if(t==="dark"||t==="light")d.dataset.theme=t;else if(t!=="system")d.dataset.theme="light"}catch(e){document.documentElement.dataset.theme="light"}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Finance Tracker</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
@@ -72,6 +73,32 @@ tr:hover td{background:var(--hov)}
 .bs-e{padding:12px 0;color:var(--mut);font-size:13px}.bs-gn{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px}
 .bsh{border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px;background:var(--card2)}.bsh .hd{margin-bottom:8px}
 @media(max-width:700px){.bs-grid{grid-template-columns:1fr}}
+ .ov{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr;gap:12px;align-items:stretch}
+.ov .kpi{display:flex;flex-direction:column;gap:4px;min-width:0;padding:14px}.ov .k{line-height:1.3}.ov .v{line-height:1.25;overflow-wrap:anywhere}
+.set,.set *{font-family:inherit}
+.set .card{padding:16px 18px;overflow:visible}
+.set h2{font-size:15px;line-height:1.4;font-weight:600;display:flex;align-items:center;flex-wrap:wrap;gap:8px;overflow-wrap:anywhere}
+.set label,.set .k,.set p{font-size:13px;line-height:1.5;white-space:normal;overflow-wrap:anywhere}.set label{margin-bottom:4px}
+.set .btn{font-size:13px;line-height:1.3;white-space:normal;text-align:left;height:auto;min-height:38px}
+.set .row{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px 16px;align-items:start}
+.set input,.set select,.set textarea{font-size:14px;min-height:40px;max-width:100%}
+.set input[type=checkbox]{min-height:0;width:auto}
+.set .bsh{padding:12px 14px}.set .bsh .hd{flex-wrap:wrap;gap:6px 10px;align-items:flex-start}.set .bsh .row>div:first-child{grid-column:1/-1}
+#tr-ov{position:fixed;inset:0;z-index:1000}#tr-ov.dim{background:rgba(0,0,0,.62)}
+#tr-hl{position:fixed;z-index:1001;pointer-events:none;border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.62),0 0 0 2px var(--focus);transition:top .25s ease,left .25s ease,width .25s ease,height .25s ease,opacity .2s ease}
+#tr-tip{position:fixed;z-index:1002;width:min(360px,calc(100vw - 24px));background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:16px;transition:top .25s ease,left .25s ease,opacity .2s ease}
+#tr-md{position:fixed;inset:0;z-index:1003;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.62)}#tr-md[hidden],#tr[hidden]{display:none}
+.tr-card{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.35);max-width:460px;width:100%;padding:24px;max-height:calc(100vh - 32px);overflow:auto}
+.tr-card h2{font-size:20px;margin:10px 0 8px}.tr-card p{margin:0 0 10px;line-height:1.55}
+.tr-ic{display:grid;place-items:center;width:48px;height:48px;border-radius:12px;background:var(--act);color:#fff}
+#tr-tip h3{font-size:16px;margin:10px 0 6px}#tr-tip p{margin:0;line-height:1.55;font-size:14px}
+.tr-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--mut)}
+.tr-exit{display:inline-flex;align-items:center;gap:4px;border:0;background:none;color:var(--mut);font:inherit;font-size:12px;cursor:pointer;padding:2px 4px;border-radius:6px}.tr-exit:hover{background:var(--hov);color:var(--tx)}
+.tr-bar{height:4px;border-radius:2px;background:var(--line);margin-top:8px;overflow:hidden}.tr-bar i{display:block;height:100%;background:var(--focus);transition:width .25s ease}
+.tr-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-top:14px}.tr-btns>span{display:flex;gap:8px}
+@media(max-width:1000px){.ov{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.set select{font-size:13px}}
+@media(max-width:380px){.ov{grid-template-columns:1fr}}
 @media(max-width:860px){.side{transform:translateX(-100%);width:264px;box-shadow:var(--sh)}.shell.open .side{transform:none}.shell.col .side{width:264px}.shell.col .sb-name,.shell.col nav button span{display:inline}.shell.col nav button{justify-content:flex-start;padding:10px 12px}.shell.col .sb-top{justify-content:flex-start;padding:4px 8px 18px}.sb-foot{display:none}main,.shell.col main{margin-left:0;padding:14px}.hb{display:inline-block}.shell.open .scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:35}.gsr input{width:140px}}
 </style></head><body><div class="shell" id="shell">
 <aside class="side" aria-label="Main navigation"><div class="sb-top"><span class="logo" id="br"></span><span class="sb-name">Finance Tracker</span></div><nav id="nav"></nav><div class="sb-foot"><button class="sb-col" id="col" onclick="colSide()" aria-label="Collapse or expand sidebar"></button></div></aside>
@@ -82,16 +109,19 @@ tr:hover td{background:var(--hov)}
 const KEY="mf_tracker_v1",TK="mf_theme";
 let S={tx:[],id:1,rec:[],rid:1,set:{ob:0,oc:0,obd:"",ocd:"",ou:"",home:"dash",loan:0,cc:0,ol:0,inc:["Job","Family","Others"],exp:["Family","Party","Trip","SIP/Shares","Netflix","Others"]}};
 let had=0;try{const r=localStorage.getItem(KEY);if(r){had=1;const p=JSON.parse(r);S={...S,...p,set:{...S.set,...p.set}}}}catch(e){}
-if(!Array.isArray(S.tx))S.tx=[];if(!Array.isArray(S.rec))S.rec=[];
+const normTx=()=>{S.tx=S.tx.filter(t=>t&&t.date).map(t=>({...t,date:String(t.date).slice(0,10),amt:+t.amt||0,type:/^inc/i.test(t.type)?"Income":/^(contra|transfer)/i.test(t.type)?"Contra":"Expense",mode:/^cash/i.test(t.mode)?"Cash":"Bank"}))};
+if(!Array.isArray(S.tx))S.tx=[];normTx();if(!Array.isArray(S.rec))S.rec=[];
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const $=id=>document.getElementById(id);
-const P={menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',left:'<path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/>',right:'<path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',trend:'<path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/>',file:'<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/>',up:'<path d="m18 15-6-6-6 6"/>',down:'<path d="m6 9 6 6 6-6"/>',search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',filter:'<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>',plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',trash:'<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>',edit:'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',repeat:'<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',swap:'<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',layout:'<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',bank:'<path d="M3 22h18"/><path d="M6 18v-7M10 18v-7M14 18v-7M18 18v-7"/><path d="M12 2 20 7H4Z"/>',sliders:'<path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/>',check:'<path d="M20 6 9 17l-5-5"/>',pause:'<rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/>',play:'<polygon points="6 3 20 12 6 21 6 3"/>',wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',chart:'<path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/>',pie:'<path d="M21 12c.55 0 1.02-.45.95-.99A10 10 0 0 0 12.99 2.05c-.54-.07-.99.4-.99.95v8a1 1 0 0 0 1 1Z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>',clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',gauge:'<path d="M12 12l4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>'};
+const P={gear:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',left:'<path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/>',right:'<path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/>',user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',trend:'<path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/>',file:'<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/>',up:'<path d="m18 15-6-6-6 6"/>',down:'<path d="m6 9 6 6 6-6"/>',search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',filter:'<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>',plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',trash:'<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>',edit:'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',repeat:'<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',swap:'<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',layout:'<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',bank:'<path d="M3 22h18"/><path d="M6 18v-7M10 18v-7M14 18v-7M18 18v-7"/><path d="M12 2 20 7H4Z"/>',sliders:'<path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/>',check:'<path d="M20 6 9 17l-5-5"/>',pause:'<rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/>',play:'<polygon points="6 3 20 12 6 21 6 3"/>',wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',chart:'<path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/>',pie:'<path d="M21 12c.55 0 1.02-.45.95-.99A10 10 0 0 0 12.99 2.05c-.54-.07-.99.4-.99.95v8a1 1 0 0 0 1 1Z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>',clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',gauge:'<path d="M12 12l4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>'};
 const ic=(n,s=18)=>`<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]||""}</svg>`;
 const pad=n=>String(n).padStart(2,"0");
 const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
 const TODAY=iso(new Date());let M=TODAY.slice(0,7),V=["dash","tx","cf","bs","inv","rec","rep","set"].includes(S.set.home)?S.set.home:"dash",AS=TODAY,EID=0,RID=0;
-const fmt=n=>(n<0?"-":"")+"₹"+Math.abs(+n||0).toLocaleString("en-IN",{maximumFractionDigits:2});
-const pct=n=>((n||0)*100).toFixed(1)+"%";
+const fmt0=n=>(n<0?"-":"")+"₹"+Math.abs(+n||0).toLocaleString("en-IN",{maximumFractionDigits:2});
+const isZ=n=>Math.round((+n||0)*100)===0;
+const fmt=n=>isZ(n)?"–":fmt0(n); // display only: zero shows as a dash; stored and calculated values stay numeric
+const pct=n=>Math.round((+n||0)*1000)===0?"–":((+n||0)*100).toFixed(1)+"%";
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const dim=m=>{const [y,mo]=m.split("-").map(Number);return new Date(y,mo,0).getDate()};
 const prevM=m=>{const [y,mo]=m.split("-").map(Number);return iso(new Date(y,mo-2,1)).slice(0,7)};
@@ -117,13 +147,19 @@ function series(range,gran){let ks=[];
 const dl=(a,b,w)=>b?`<span class="d">${a>=b?"▲":"▼"} ${Math.abs((a-b)/b*100).toFixed(1)}% vs ${w}</span>`:`<span class="d">&nbsp;</span>`;
 // Recurring
 const okR=r=>!r.end||r.next<=r.end;
-const dueR=()=>S.rec.filter(r=>r.active&&r.next<=TODAY&&okR(r));
-const upR=()=>S.rec.filter(r=>r.active&&r.next>TODAY&&r.next<=addD(TODAY,30)&&okR(r)).sort((a,b)=>a.next.localeCompare(b.next));
-function postRec(id){const r=S.rec.find(x=>x.id===id);if(!r||!okR(r))return;
-  if(!S.tx.some(t=>t.r===r.id&&t.rd===r.next))S.tx.push({id:S.id++,date:r.next,type:r.type,head:r.head,mode:r.mode,amt:r.amt,note:r.name,r:r.id,rd:r.next});
-  r.next=adv(r);save();render()}
+const occStep={Monthly:1,Quarterly:3,Yearly:12};
+// Start date = first occurrence (never skipped). Occurrences are computed from the start date, so no drift or missed first period.
+function occ(r,upTo){const a=+r.start.slice(8),o=[];for(let i=0;i<4000;i++){const d=r.freq==="Daily"?addD(r.start,i):r.freq==="Weekly"?addD(r.start,7*i):addM(r.start,i*(occStep[r.freq]||1),a);if(d>upTo||(r.end&&d>r.end))break;o.push(d)}return o}
+const exR=(r,d)=>S.tx.some(t=>(t.r===r.id&&t.rd===d)||(t.date===d&&t.type===r.type&&t.head===r.head&&t.mode===r.mode&&Math.abs(t.amt-r.amt)<0.005));
+const pendR=r=>r.active?occ(r,TODAY).filter(d=>!exR(r,d)):[];
+const nextD=r=>{const p=occ(r,TODAY).filter(d=>!exR(r,d));if(p.length)return p[0];const f=occ(r,addD(TODAY,400)).filter(d=>d>TODAY);return f.length?f[0]:(r.start>TODAY&&(!r.end||r.start<=r.end)?r.start:"")};
+const dueR=()=>S.rec.flatMap(r=>pendR(r).map(d=>({r,d})));
+const upR=()=>S.rec.flatMap(r=>r.active?occ(r,addD(TODAY,30)).filter(d=>d>TODAY&&!exR(r,d)).map(d=>({r,d})):[]).sort((a,b)=>a.d.localeCompare(b.d));
+function postOne(r,d){if(!exR(r,d))S.tx.push({id:S.id++,date:d,type:r.type,head:r.head,mode:r.mode,amt:r.amt,note:r.name,r:r.id,rd:d});r.next=nextD(r)||r.next}
+function postRec(id,d){const r=S.rec.find(x=>x.id===id);if(!r)return;d=d||pendR(r)[0];if(!d||d>TODAY||(r.end&&d>r.end))return;postOne(r,d);save();render()}
+function postAll(){const L=dueR();if(!L.length)return;if(!confirm("Post "+L.length+" due recurring transaction"+(L.length===1?"":"s")+"? Entries that already exist are skipped."))return;L.forEach(x=>postOne(x.r,x.d));save();render()}
 // Navigation / theme
-const tabs=[["dash","Dashboard","layout"],["tx","Transactions","list"],["cf","Cash Flow","swap"],["bs","Balance Sheet","bank"],["inv","Investments","trend"],["rec","Recurring Transactions","repeat"],["rep","Reports","file"],["set","Settings","sliders"]];
+const tabs=[["dash","Dashboard","layout"],["tx","Transactions","list"],["cf","Cash Flow","swap"],["bs","Balance Sheet","bank"],["inv","Investments","trend"],["rec","Recurring Transactions","repeat"],["rep","Reports","file"],["set","Settings","gear"]];
 const PT={dash:["Dashboard","Your income, expenses and net worth at a glance"],tx:["Transactions","Add, search and filter income, expenses and transfers"],cf:["Cash Flow","Daily bank and cash movements with opening and closing balances"],bs:["Balance Sheet","Assets, liabilities and net worth as of a date"],inv:["Investments","Your SIP, shares and other investment holdings"],rec:["Recurring Transactions","Schedules for regular payments and income"],rep:["Reports","Monthly, yearly and category summaries"],set:["Settings","Opening balances, categories, theme and backup"]};
 let SC=false;try{SC=localStorage.getItem("mf_side")==="1"}catch(e){}
 function applySide(){$("shell").classList.toggle("col",SC);$("col").innerHTML=ic(SC?"right":"left",18)}
@@ -132,14 +168,14 @@ function drawer(o){$("shell").classList.toggle("open",!!o)}
 function gSearch(){F.q=$("gq").value;F.so=1;F.all=true;go("tx")}
 function go(v){V=v;drawer(0);render();window.scrollTo(0,0)}
 function theme(){const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");setTheme(cur==="dark"?"light":"dark")}
-const TP=()=>{try{return localStorage.getItem(TK)||"dark"}catch(e){return"dark"}};
+const TP=()=>{try{return localStorage.getItem(TK)||"light"}catch(e){return"light"}};
 function applyTheme(){const t=TP(),d=document.documentElement;if(t==="light"||t==="dark")d.dataset.theme=t;else delete d.dataset.theme}
 function setTheme(t){try{localStorage.setItem(TK,t)}catch(e){}applyTheme();render()}
 applyTheme();
 function render(){Object.values(CH).forEach(c=>c.destroy());CH={};
-  $("br").innerHTML=ic("wallet",20);$("hb").innerHTML=ic("menu",20);$("gsb").innerHTML=ic("search",16);$("st").innerHTML=ic("sliders",18);$("pf").innerHTML=ic("user",18);$("pt").textContent=PT[V][0];$("pd").textContent=PT[V][1];applySide();
+  $("br").innerHTML=ic("wallet",20);$("hb").innerHTML=ic("menu",20);$("gsb").innerHTML=ic("search",16);$("st").innerHTML=ic("gear",18);$("pf").innerHTML=ic("user",18);$("pt").textContent=PT[V][0];$("pd").textContent=PT[V][1];applySide();
   const dk=(document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"))==="dark";$("th").innerHTML=ic(dk?"sun":"moon",18);
-  $("nav").innerHTML=tabs.map(([k,n,i])=>`<button class="${V===k?"on":""}" title="${n}" ${V===k?'aria-current="page"':""} onclick="go('${k}')">${ic(i,18)}<span>${n}</span></button>`).join("");
+  $("nav").innerHTML=tabs.map(([k,n,i])=>`<button class="${V===k?"on":""}" title="${n}" data-t="${k}" ${V===k?'aria-current="page"':""} onclick="go('${k}')">${ic(i,18)}<span>${n}</span></button>`).join("");
   $("mp").value=M;$("app").innerHTML={dash:vDash,tx:vTx,cf:vCf,rec:vRec,bs:vBs,inv:vInv,rep:vRep,set:vSet}[V]();
   if(V==="tx"){tchg();renderList()}if(V==="dash")initCharts();if(V==="rec")$("rh").innerHTML=catOpts("Income");}
 // Charts
@@ -156,7 +192,7 @@ function bd(ty){const o={};S.tx.forEach(t=>{if(t.type===ty&&(Q.bp!=="m"||t.date.
   if(Q.tn==="5"&&rows.length>5){const rest=rows.slice(5).reduce((a,r)=>a+r[1],0);rows=rows.slice(0,5);rows.push(["Other categories",rest,"#94a3b8"])}
   return{rows,total}}
 function initCharts(){const inc=gc("--inc"),exp=gc("--exp"),mut=gc("--mut"),ac=gc("--tx");
-  const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.dataset.label?c.dataset.label+": ":"")+fmt(c.parsed.y)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>fmt(v)}},x:{grid:{display:false}}}};
+  const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.dataset.label?c.dataset.label+": ":"")+fmt(c.parsed.y)}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>fmt0(v)}},x:{grid:{display:false}}}};
   const ks=series(Q.er==="all"?"all":+Q.er,"m");
   mk("c1",{type:"bar",data:{labels:ks.map(lab),datasets:[{label:"Expenses",data:ks.map(k=>tot(k,"Expense")),backgroundColor:ks.map(k=>k===Q.sel?exp:exp+"99"),borderRadius:6}]},options:{...base,onClick:(e,a)=>{if(a.length){Q.sel=ks[a[0].index];render()}}}});
   const k2=series(12,Q.ty),I=k2.map(k=>tot(k,"Income")),E=k2.map(k=>tot(k,"Expense")),N=I.map((v,i)=>v-E[i]);
@@ -168,7 +204,7 @@ function initCharts(){const inc=gc("--inc"),exp=gc("--exp"),mut=gc("--mut"),ac=g
     mk(id,{type:"doughnut",data:{labels:d.rows.map(r=>r[0]),datasets:[{data:d.rows.map(r=>r[1]),backgroundColor:d.rows.map(r=>r[2]),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:"62%",plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+": "+fmt(c.parsed)+" ("+pct(c.parsed/d.total)+")"}}}}})})}
 const sq=(k,v)=>{Q[k]=v;render()};
 const seg=(k,o)=>`<div class="seg">${o.map(([v,l])=>`<button class="${Q[k]===v?"on":""}" onclick="sq('${k}','${v}')">${l}</button>`).join("")}</div>`;
-const sec=(t,i,b)=>`<details class="sec" open><summary>${ic(i,16)} ${t}</summary><div class="sb">${b}</div></details>`;
+const sec=(t,i,b)=>`<details class="sec" data-s="${t}" open><summary>${ic(i,16)} ${t}</summary><div class="sb">${b}</div></details>`;
 function legend(ty){const d=bd(ty);if(!d.total)return'<p class="k">No transactions yet for this period.</p>';
   return`<div class="ch"><canvas id="${ty==="Expense"?"c4":"c5"}"></canvas></div>`+d.rows.map(r=>`<div class="lg"><span><i class="dot" style="background:${r[2]}"></i>${esc(r[0])}</span><span>${fmt(r[1])} · ${pct(r[1]/d.total)}</span></div>`).join("")}
 function xdetail(k){const L=S.tx.filter(t=>t.type==="Expense"&&t.date.startsWith(k)),T=L.reduce((a,t)=>a+t.amt,0),o={};L.forEach(t=>o[t.head]=(o[t.head]||0)+t.amt);
@@ -179,15 +215,15 @@ function vDash(){const inc=tot(M,"Income"),exp=tot(M,"Expense"),net=inc-exp,P1=p
   const last=M===TODAY.slice(0,7)?TODAY:M+"-"+dim(M),cb=bal(last),tfr=tot(M,"Contra"),nwv=netWorth(last);
   const ban=S.tx.some(t=>t.s)?`<div class="card">Sample data for Nov and Dec 2026 is loaded so you can see how the app works. <button class="btn" onclick="dropSample()">Remove sample data</button></div>`:"";
   const k=(n,v,c,x)=>`<div class="kpi"><div class="k">${n}</div><div class="v ${c}">${v}</div>${x||""}</div>`;
-  const over=sec("Financial overview","gauge",`<div class="grid">${k("Total income",fmt(inc),"inc",dl(inc,pi,"prev. month"))}${k("Total expenses",fmt(exp),"exp",dl(exp,pe,"prev. month"))}${k("Transfers",fmt(tfr),"tr")}${k("Net worth",nwv===null?"–":fmt(nwv),"")}${k("Net savings",fmt(net),"",dl(net,pn,"prev. month"))}${k("Savings rate",pct(div(net,inc)),"")}${k("Closing bank",q(cb.xb,cb.b),"")}${k("Closing cash",q(cb.xc,cb.c),"")}</div>`);
+  const over=sec("Financial overview","gauge",`<div class="grid ov">${k("Total income",fmt(inc),"inc",dl(inc,pi,"prev. month"))}${k("Total expenses",fmt(exp),"exp",dl(exp,pe,"prev. month"))}${k("Transfers",fmt(tfr),"tr")}${k("Net worth",nwv===null?"–":fmt(nwv),"")}${k("Net savings",fmt(net),"",dl(net,pn,"prev. month"))}${k("Savings rate",pct(div(net,inc)),"")}${k("Closing bank",q(cb.xb,cb.b),"")}${k("Closing cash",q(cb.xc,cb.c),"")}</div>`);
   const ks=series(12,Q.ty),n=ks.length,c=(f,i)=>f(ks[i]),w=Q.ty==="y"?"prev. year":"prev. month";
   const ch=(a,b)=>b?`${a>=b?"▲":"▼"} ${Math.abs((a-b)/b*100).toFixed(1)}%`:"–";
   const tr=sec("Financial trends","chart",`<div class="two"><div><div class="hd"><h2>Monthly expenses</h2>${seg("er",[["6","6M"],["12","12M"],["all","All"]])}</div><div class="ch"><canvas id="c1"></canvas></div><p class="k">Select a bar to see that month’s expense details.</p></div>
   <div><div class="hd"><h2>Income vs expenses</h2>${seg("ty",[["m","Monthly"],["y","Yearly"]])}</div><div class="ch"><canvas id="c2"></canvas></div><p class="k">Latest ${Q.ty==="y"?"year":"month"} vs ${w}: <span class="inc">Income ${ch(tot(ks[n-1],"Income"),n>1?tot(ks[n-2],"Income"):0)}</span> · <span class="exp">Expenses ${ch(tot(ks[n-1],"Expense"),n>1?tot(ks[n-2],"Expense"):0)}</span></p></div></div>
   ${Q.sel?xdetail(Q.sel):""}<div class="hd" style="margin-top:12px"><h2>Savings trend (cumulative)</h2></div><div class="ch"><canvas id="c3"></canvas></div>`);
   const bk=sec("Financial breakdown","pie",`<div class="hd"><span class="k">${Q.bp==="m"?lab(M):"All time"}</span><span>${seg("bp",[["m","Month"],["all","All time"]])} ${seg("tn",[["5","Top 5"],["all","All"]])}</span></div><div class="two"><div><h2>Where am I spending the most?</h2>${legend("Expense")}</div><div><h2>Where am I earning the most?</h2>${legend("Income")}</div></div>`);
-  const rw=(r,b)=>`<tr><td>${esc(r.name)}</td><td><span class="pill ${r.type==="Income"?"inc":"exp"}">${r.type}</span></td><td>${fmt(r.amt)}</td><td>${r.next}</td><td>${b?`<button class="btn p" onclick="postRec(${r.id})">${ic("check",14)} Post</button>`:""}</td></tr>`;
-  const D=dueR(),U=upR(),up=sec("Upcoming transactions","clock",`<h2>Due now</h2>${D.length?`<div class="sc"><table>${D.map(r=>rw(r,1)).join("")}</table></div>`:'<p class="k">Nothing is due.</p>'}<h2 style="margin-top:12px">Next 30 days</h2>${U.length?`<div class="sc"><table>${U.map(r=>rw(r,0)).join("")}</table></div>`:'<p class="k">No upcoming recurring transactions.</p>'}<p><button class="btn" onclick="go('rec')">${ic("repeat",14)} Manage recurring</button></p>`);
+  const rw=(x,b)=>`<tr><td>${esc(x.r.name)}</td><td><span class="pill ${x.r.type==="Income"?"inc":"exp"}">${x.r.type}</span></td><td>${fmt(x.r.amt)}</td><td>${x.d}</td><td>${b?`<button class="btn p" onclick="postRec(${x.r.id},'${x.d}')">${ic("check",14)} Post</button>`:""}</td></tr>`;
+  const D=dueR(),U=upR(),up=sec("Upcoming transactions","clock",`<h2>Due now${D.length?" ("+D.length+")":""}</h2>${D.length?`<div class="sc"><table>${D.slice(0,12).map(x=>rw(x,1)).join("")}</table></div>${D.length>12?`<p class="k">Showing 12 of ${D.length}.</p>`:""}<p><button class="btn p" onclick="postAll()">${ic("check",14)} Post all due (${D.length})</button></p>`:'<p class="k">Nothing is due.</p>'}<h2 style="margin-top:12px">Next 30 days</h2>${U.length?`<div class="sc"><table>${U.map(x=>rw(x,0)).join("")}</table></div>`:'<p class="k">No upcoming recurring transactions.</p>'}<p><button class="btn" onclick="go('rec')">${ic("repeat",14)} Manage recurring</button></p>`);
   const wn=(!S.set.obd||!S.set.ocd?`<div class="card warn">Opening balance dates are not set yet. Your existing amounts and calculations are unchanged. <button class="btn" onclick="go('set')">Set dates</button></div>`:"")+((cb.xb||cb.xc)?`<div class="card warn">Opening balance has not been configured for this date.</div>`:"");
   const sn=(cb.xb||cb.xc)?'<p class="k">Opening balance has not been configured for this date.</p>':(()=>{const a=bsCol("a","Assets",cb,last).T,l=bsCol("l","Liabilities",cb,last).T;return`<table><tr><td>Closing bank</td><td>${fmt(cb.b)}</td></tr><tr><td>Closing cash</td><td>${fmt(cb.c)}</td></tr><tr><td>Total assets</td><td>${fmt(a)}</td></tr><tr><td>Total liabilities</td><td>${fmt(l)}</td></tr><tr><th>Net worth</th><th>${fmt(a-l)}</th></tr></table>`})();
   const bsn=sec("Balance sheet snapshot and net worth trend","bank",`<div class="two"><div><div class="hd"><h2>Balance sheet snapshot (${dmy(last)})</h2><button class="btn" onclick="go('bs')">Open</button></div>${sn}</div><div><div class="hd"><h2>Net worth trend</h2></div><div class="ch"><canvas id="c6"></canvas></div><p class="k">Points appear from your opening balance dates.</p></div></div>`);
@@ -250,7 +286,7 @@ const INVH=["Long-term Investments","Investments","Mutual Funds","Shares and Sec
 const srcLabel=s=>({none:"Not mapped",manual:"Manual amount",bank:"Closing bank balance",cash:"Closing cash balance",loan:"Loans outstanding",cc:"Credit card / payables",ol:"Other liabilities"}[s]||(s.startsWith("cat:")?"Expense category: "+s.slice(4):s));
 function vInv(){const c=bal(TODAY),rec=S.tx.filter(t=>t.type==="Expense"&&t.head==="SIP/Shares").sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id),T=rec.filter(t=>t.date<=TODAY).reduce((a,t)=>a+t.amt,0),hs=BC("a").filter(x=>INVH.includes(x.h)),ks=series(12,"m");
   const k=(n,v)=>`<div class="kpi"><div class="k">${n}</div><div class="v">${v}</div></div>`;
-  return`<div class="grid card">${k("Total invested (SIP/Shares)",fmt(T))}${k("Contributed in "+lab(M),fmt(tot(M,"Expense","SIP/Shares")))}${k("Investment entries",rec.length)}</div>
+  return`<div class="grid card">${k("Total invested (SIP/Shares)",fmt(T))}${k("Contributed in "+lab(M),fmt(tot(M,"Expense","SIP/Shares")))}${k("Investment entries",rec.length||"–")}</div>
   <div class="card sc"><h2>Investment heads in your balance sheet</h2>${hs.length?`<table><tr><th>Head</th><th>Balance source</th><th>Amount</th></tr>${hs.map(x=>`<tr><td>${esc(x.h)}</td><td>${esc(srcLabel(x.src))}</td><td>${fmt(hAmt(x,TODAY,c))}</td></tr>`).join("")}<tr><th>Total</th><th></th><th>${fmt(hs.reduce((a,x)=>a+hAmt(x,TODAY,c),0))}</th></tr></table>`:'<p class="k">No investment heads selected. Add them in Settings → Balance Sheet Configuration.</p>'}</div>
   <div class="two"><div class="card sc"><h2>Monthly contributions</h2><table><tr><th>Month</th><th>Invested</th><th>Cumulative</th></tr>${ks.map(m=>`<tr><td>${lab(m)}</td><td>${fmt(tot(m,"Expense","SIP/Shares"))}</td><td>${fmt(rec.filter(t=>t.date.slice(0,7)<=m).reduce((a,t)=>a+t.amt,0))}</td></tr>`).join("")}</table></div>
   <div class="card sc"><h2>Recent investment entries</h2>${rec.length?`<table><tr><th>Date</th><th>Mode</th><th>Note</th><th>Amount</th></tr>${rec.slice(0,10).map(t=>`<tr><td>${t.date}</td><td>${t.mode}</td><td class="nt">${esc(t.note||"")}</td><td>${fmt(t.amt)}</td></tr>`).join("")}</table>`:'<p class="k">No SIP/Shares entries yet.</p>'}</div></div>`}
@@ -262,7 +298,7 @@ function vRep(){const hd="<tr><th>Period</th><th>Income</th><th>Expenses</th><th
   <div class="two"><div class="card sc"><h2>Income by source – ${lab(M)}</h2><table><tr><th>Source</th><th>Amount</th><th>Share</th></tr>${ct("Income",S.set.inc)}</table></div><div class="card sc"><h2>Expenses by category – ${lab(M)}</h2><table><tr><th>Category</th><th>Amount</th><th>Share</th></tr>${ct("Expense",S.set.exp)}</table></div></div>`}
 // Recurring view
 function vRec(){const F2=["Daily","Weekly","Monthly","Quarterly","Yearly"];
-  const st=r=>!r.active?"Paused":!okR(r)?"Ended":r.next<=TODAY?"Due":"Active";
+  const st=r=>!r.active?"Paused":!nextD(r)?"Ended":pendR(r).length?"Due ("+pendR(r).length+")":"Active";
   return`<div class="card"><h2>${RID?"Edit recurring schedule":"New recurring schedule"}</h2><div class="row">
   <div><label>Name</label><input id="rn" maxlength="60"></div>
   <div><label>Type</label><select id="rt" onchange="$('rh').innerHTML=catOpts(this.value)"><option>Income</option><option selected>Expense</option></select></div>
@@ -272,15 +308,15 @@ function vRec(){const F2=["Daily","Weekly","Monthly","Quarterly","Yearly"];
   <div><label>Frequency</label><select id="rf">${F2.map(f=>`<option ${f==="Monthly"?"selected":""}>${f}</option>`).join("")}</select></div>
   <div><label>Start date</label><input id="rs" type="date" value="${TODAY}"></div>
   <div><label>End date (optional)</label><input id="re" type="date"></div>
-  <div><label>Next due date</label><input id="rx" type="date"></div>
+  <div><label>Next due date (calculated)</label><input id="rx" type="date" disabled title="Calculated from the start date and frequency"></div>
   <div><label><input id="rac" type="checkbox" checked style="width:auto"> Active</label></div>
   <div><button class="btn p" onclick="saveRec()">${ic(RID?"check":"plus",16)} ${RID?"Update":"Save"}</button>${RID?` <button class="btn" onclick="RID=0;render()">Cancel</button>`:""}</div></div></div>
-  <div class="card"><h2>Schedules</h2><div class="sc">${S.rec.length?`<table><tr><th>Name</th><th>Type</th><th>Category</th><th>Amount</th><th>Mode</th><th>Frequency</th><th>Next due</th><th>Status</th><th></th></tr>${S.rec.map(r=>`<tr><td>${esc(r.name)}</td><td><span class="pill ${r.type==="Income"?"inc":"exp"}">${r.type}</span></td><td>${esc(r.head)}</td><td>${fmt(r.amt)}</td><td>${r.mode}</td><td>${r.freq}</td><td>${r.next}</td><td>${st(r)}</td><td class="ac">${r.active&&r.next<=TODAY&&okR(r)?`<button class="btn p" onclick="postRec(${r.id})">${ic("check",14)} Post</button>`:""}<button class="ib" onclick="togR(${r.id})" aria-label="Pause or resume">${ic(r.active?"pause":"play",15)}</button><button class="ib" onclick="editR(${r.id})" aria-label="Edit">${ic("edit",15)}</button><button class="ib" onclick="delR(${r.id})" aria-label="Delete">${ic("trash",15)}</button></td></tr>`).join("")}</table>`:'<p class="k">No recurring schedules yet.</p>'}</div><p class="k">Due items are never posted automatically. Press Post to add each one to your transactions.</p></div>`}
+  <div class="card"><h2>Schedules</h2><div class="sc">${S.rec.length?`<table><tr><th>Name</th><th>Type</th><th>Category</th><th>Amount</th><th>Mode</th><th>Frequency</th><th>Next due</th><th>Status</th><th></th></tr>${S.rec.map(r=>`<tr><td>${esc(r.name)}</td><td><span class="pill ${r.type==="Income"?"inc":"exp"}">${r.type}</span></td><td>${esc(r.head)}</td><td>${fmt(r.amt)}</td><td>${r.mode}</td><td>${r.freq}</td><td>${nextD(r)||"–"}</td><td>${st(r)}</td><td class="ac">${pendR(r).length?`<button class="btn p" onclick="postRec(${r.id})">${ic("check",14)} Post</button>`:""}<button class="ib" onclick="togR(${r.id})" aria-label="Pause or resume">${ic(r.active?"pause":"play",15)}</button><button class="ib" onclick="editR(${r.id})" aria-label="Edit">${ic("edit",15)}</button><button class="ib" onclick="delR(${r.id})" aria-label="Delete">${ic("trash",15)}</button></td></tr>`).join("")}</table>`:'<p class="k">No recurring schedules yet.</p>'}</div>${dueR().length?`<p><button class="btn p" onclick="postAll()">${ic("check",14)} Post all due (${dueR().length})</button></p>`:""}<p class="k">Due items are never posted automatically. Press Post to add each one to your transactions.</p></div>`}
 function saveRec(){const g=i=>$(i).value,amt=parseFloat(g("ra")),name=g("rn").trim().slice(0,60);
   if(!name||!(amt>0)||!g("rs")||(g("re")&&g("re")<g("rs"))){alert("Enter a name, an amount above zero, a start date, and an end date on or after the start.");return}
-  const o={name,type:g("rt"),head:g("rh"),mode:g("rm"),amt,freq:g("rf"),start:g("rs"),end:g("re"),next:g("rx")||g("rs"),active:$("rac").checked};
+  const o={name,type:g("rt"),head:g("rh"),mode:g("rm"),amt,freq:g("rf"),start:g("rs"),end:g("re"),next:g("rs"),active:$("rac").checked};
   if(!o.head){alert("Choose a category.");return}if(o.next<o.start){alert("Next due date cannot be before the start date.");return}
-  if(RID){Object.assign(S.rec.find(x=>x.id===RID),o);RID=0}else{if(!S.rid)S.rid=1;S.rec.push({id:S.rid++,...o})}save();render()}
+  if(RID){Object.assign(S.rec.find(x=>x.id===RID),o);RID=0}else{if(!S.rid)S.rid=1;S.rec.push({id:S.rid++,...o})}S.rec.forEach(r=>{r.next=nextD(r)||r.next});save();render()}
 function editR(id){const r=S.rec.find(x=>x.id===id);if(!r)return;RID=id;V="rec";render();$("rn").value=r.name;$("rt").value=r.type;$("rh").innerHTML=catOpts(r.type);
   if(![...$("rh").options].some(o=>o.value===r.head))$("rh").add(new Option(r.head,r.head));$("rh").value=r.head;$("ra").value=r.amt;$("rm").value=r.mode;$("rf").value=r.freq;$("rs").value=r.start;$("re").value=r.end||"";$("rx").value=r.next;$("rac").checked=r.active;window.scrollTo(0,0)}
 function togR(id){const r=S.rec.find(x=>x.id===id);if(r){r.active=!r.active;save();render()}}
@@ -312,8 +348,8 @@ function vBs(){const c=bal(AS),dt=`<div class="card"><label>As of date</label><i
   <div class="bs-r bs-nw"><span>Net Worth (Total Assets − Total Liabilities)</span><span class="bs-am">${fmt(A.T-L.T)}</span></div>${b.l.some(x=>grpOf("l",x.h)===EQ)?'<p class="k">Capital / Equity heads are shown for reference and are not deducted again in Net Worth.</p>':""}</div>`+
   (b.sn&&b.notes.trim()?`<div class="card"><h2>Notes</h2><div class="bs-gn">${esc(b.notes)}</div></div>`:"")}
 function srcOpts(s,cur,hn){const used=new Set([...BC("a"),...BC("l")].filter(x=>x.h!==hn).map(x=>x.src)),eq=grpOf(s,hn)===EQ;
-  const o=[["none","Not mapped (₹0)"],["manual","Manual amount"]];
-  if(s==="a")o.push(["bank","Closing bank balance"],["cash","Closing cash balance"],...S.set.exp.map(c=>["cat:"+c,"Invested value: expense category "+c]));
+  const o=[["none","Not mapped (no balance)"],["manual","Manual amount"]];
+  if(s==="a")o.push(["bank","Closing bank balance"],["cash","Closing cash balance"],...S.set.exp.map(c=>["cat:"+c,"Invested value: "+c]));
   else if(!eq)o.push(["loan","Existing entry: Loans outstanding"],["cc","Existing entry: Credit card / payables"],["ol","Existing entry: Other liabilities"]);
   if(!o.some(r=>r[0]===cur))o.push([cur,cur.replace("cat:","Category: ")]);
   return o.filter(([v])=>v==="none"||v==="manual"||v===cur||!used.has(v)).map(([v,l])=>`<option value="${esc(v)}" ${v===cur?"selected":""}>${esc(l)}</option>`).join("")}
@@ -338,7 +374,8 @@ function bsAmt(s,i,v){const x=BC(s)[i],n=parseFloat(v)||0;if(x.src==="loan"||x.s
 function bsNote(s,i,v){BC(s)[i].note=v.trim().slice(0,200);save()}
 function bsShow(s,i,v){BC(s)[i].show=!!v;save()}
 function bsGen(){S.set.bsc.notes=$("gn").value.slice(0,2000);S.set.bsc.sn=$("gs").checked;save()}
-function vSet(){const s=S.set,tm=TP(),ct=(t,id,l,k)=>`<div class="card"><h2>${t}</h2><label>${l}</label><input id="${id}" value="${esc(s[k].join(", "))}"><p><button class="btn p" onclick="saveCat('${k}','${id}')">Save</button></p></div>`,o=(v,l)=>`<option value="${v}" ${tm===v?"selected":""}>${l}</option>`;
+function vSet(){return`<div class="set">${vSet0()}</div>`}
+function vSet0(){const s=S.set,tm=TP(),ct=(t,id,l,k)=>`<div class="card"><h2>${t}</h2><label>${l}</label><input id="${id}" value="${esc(s[k].join(", "))}"><p><button class="btn p" onclick="saveCat('${k}','${id}')">Save</button></p></div>`,o=(v,l)=>`<option value="${v}" ${tm===v?"selected":""}>${l}</option>`;
   return(!s.obd||!s.ocd?`<div class="card warn">Opening balance dates are not set yet. Existing amounts are preserved and used as before until you set the dates below.</div>`:"")+
   `<div class="card"><h2>${ic("bank",16)} Opening balances</h2><div class="row">
   <div><label>Opening bank balance (₹)</label><input id="ob" type="number" step="0.01" value="${s.ob}"></div>
@@ -349,21 +386,97 @@ function vSet(){const s=S.set,tm=TP(),ct=(t,id,l,k)=>`<div class="card"><h2>${t}
   <p class="k">Opening balances are a starting point only: not income, not expense, and excluded from savings. Transactions dated before an account’s opening date are not counted in that account’s balance.</p>
   <button class="btn p" onclick="saveOB()">${ic("check",14)} Save opening balances</button></div>`+
   ct(ic("plus",16)+" Income categories","ci","Comma-separated","inc")+ct(ic("plus",16)+" Expense categories","ce","Comma-separated (keep “SIP/Shares” to count it as an investment)","exp")+bsCfg()+
-  `<div class="card"><h2>${ic("sun",16)} Theme preferences</h2><label>Appearance</label><select onchange="setTheme(this.value)" style="max-width:240px">${o("light","Light Mode")}${o("dark","Dark Blue Mode")}${o("system","System Default")}</select></div>
+  `<div class="card"><h2>${ic("sun",16)} Theme preferences</h2><label>Appearance</label><select onchange="setTheme(this.value)" style="max-width:380px">${o("light","Light Mode")}${o("dark","Dark Blue Mode")}${o("system","System Default")}</select></div>
   <div class="card"><h2>${ic("list",16)} Data backup and restore</h2><p class="k">Data is stored in this browser only. Copy the text below to back it up; paste a backup and press Restore to load it.</p><textarea id="bk" rows="5"></textarea><p><button class="btn" onclick="$('bk').value=JSON.stringify(S);$('bk').select()">Show backup</button> <button class="btn" onclick="restore()">Restore</button></p></div>
-  <div class="card"><h2>${ic("sliders",16)} Application preferences</h2><label>Screen to open first</label><select onchange="S.set.home=this.value;save()" style="max-width:240px">${tabs.map(([k,n])=>`<option value="${k}" ${(s.home||"dash")===k?"selected":""}>${n}</option>`).join("")}</select><p><button class="btn" onclick="wipe()">${ic("trash",14)} Erase all data</button></p></div>`}
+  <div class="card"><h2>${ic("sliders",16)} Application preferences</h2><label>Screen to open first</label><select onchange="S.set.home=this.value;save()" style="max-width:380px">${tabs.map(([k,n])=>`<option value="${k}" ${(s.home||"dash")===k?"selected":""}>${n}</option>`).join("")}</select><p><button class="btn" id="tourbtn" onclick="startTour()">${ic("play",14)} Replay Interactive Walkthrough</button> <button class="btn" onclick="wipe()">${ic("trash",14)} Erase all data</button></p></div>`}
 function saveOB(){const g=i=>$(i).value,ob=parseFloat(g("ob")||"0"),oc=parseFloat(g("oc")||"0"),dt=/^\d{4}-\d{2}-\d{2}$/;
   if(!isFinite(ob)||!isFinite(oc)||Math.abs(ob)>=1e10||Math.abs(oc)>=1e10){alert("Enter valid opening amounts.");return}
   if((g("obd")&&!dt.test(g("obd")))||(g("ocd")&&!dt.test(g("ocd")))){alert("Enter valid dates.");return}
   Object.assign(S.set,{ob,oc,obd:g("obd"),ocd:g("ocd"),ou:TODAY});save();render()}
 function saveCat(k,id){const a=$(id).value.split(",").map(s=>s.trim()).filter(Boolean);if(!a.length){alert("Add at least one category.");return}S.set[k]=a;save();render()}
-function restore(){try{const p=JSON.parse($("bk").value);if(!Array.isArray(p.tx))throw 0;p.tx=p.tx.filter(t=>t&&t.date&&t.amt>0);S={...S,...p,set:{...S.set,...p.set}};if(!Array.isArray(S.rec))S.rec=[];ensureBSC();save();render()}catch(e){alert("That backup text is not valid.")}}
+function restore(){try{const p=JSON.parse($("bk").value);if(!Array.isArray(p.tx))throw 0;p.tx=p.tx.filter(t=>t&&t.date&&t.amt>0);S={...S,...p,set:{...S.set,...p.set}};if(!Array.isArray(S.rec))S.rec=[];normTx();ensureBSC();save();render()}catch(e){alert("That backup text is not valid.")}}
 function wipe(){if(confirm("Erase all entries, recurring schedules and opening balances?")){S.tx=[];S.rec=[];S.id=1;S.rid=1;S.set.ob=0;S.set.oc=0;S.set.obd="";S.set.ocd="";S.set.ou="";save();render()}}
 function seed(){const T=[["11-01","Income","Job","Bank",55000],["11-01","Expense","Netflix","Bank",649],["11-02","Expense","SIP/Shares","Bank",5000],["11-03","Expense","Family","Cash",1500],["11-05","Income","Family","Cash",2000],["11-06","Expense","Party","Cash",1200],["11-08","Expense","Others","Bank",850],["11-10","Expense","Family","Bank",3000],["11-12","Income","Others","Bank",1500],["11-12","Expense","Others","Cash",400],
   ["12-01","Income","Job","Bank",55000],["12-01","Expense","Netflix","Bank",649],["12-02","Expense","SIP/Shares","Bank",5000],["12-04","Expense","Family","Bank",4000],["12-07","Expense","Others","Cash",600],["12-10","Income","Family","Cash",3000],["12-15","Expense","Trip","Bank",8500],["12-20","Expense","Party","Cash",2500],["12-24","Income","Others","Bank",2000],["12-28","Expense","Family","Cash",1800]];
   T.forEach(([d,t,h,m,a])=>S.tx.push({id:S.id++,date:"2026-"+d,type:t,head:h,mode:m,amt:a,note:"Sample",s:1}));S.set.ob=40000;S.set.oc=3000;S.set.obd="2026-11-01";S.set.ocd="2026-11-01";S.set.ou=TODAY;save()}
 function dropSample(){if(confirm("Remove the sample entries and reset opening balances to zero?")){S.tx=S.tx.filter(t=>!t.s);S.set.ob=0;S.set.oc=0;S.set.obd="";S.set.ocd="";save();render()}}
+// ---------- Interactive walkthrough: display only; reads no financial figures and writes only its own flag
+const nv=(t,h,p)=>({t,s:`#nav [data-t="${t}"]`,nav:1,h,p});
+const TS=[
+ nv("dash","Dashboard","Your financial summary for the selected month: income, expenses, savings, balances, net worth and charts. This page opens first."),
+ {t:"dash",s:".ctl",h:"Month, search and theme",p:"Choose the month that the Dashboard, Transactions, Cash Flow and Reports show. Type in Search transactions and press Enter to look through every month. The moon or sun button switches between light and dark mode."},
+ {t:"dash",s:'[data-s="Financial overview"]',h:"Financial overview",p:"Cards for the selected month: total income, total expenses, transfers, net worth, net savings, savings rate and your closing bank and cash balances. Transfers between bank and cash are not income or expenses. A dash (–) means nil."},
+ {t:"dash",s:'[data-s="Financial trends"] .two',h:"Financial trends",p:"Monthly expenses can show 6 months, 12 months or all months; click a bar to see that month’s expenses. Income vs expenses switches between monthly and yearly. A cumulative savings chart sits below. Charts need an internet connection to load."},
+ {t:"dash",s:'[data-s="Financial breakdown"] .two',h:"Financial breakdown",p:"Two doughnut charts show where you spend the most and where you earn the most, using your categories. Switch between this month and all time, and between the top 5 and all categories."},
+ {t:"dash",s:'[data-s="Balance sheet snapshot and net worth trend"]',h:"Balance sheet snapshot",p:"A quick look at closing bank, closing cash, total assets, total liabilities and net worth, with a net worth trend chart. Press Open to see the full Balance Sheet."},
+ {t:"dash",s:'[data-s="Upcoming transactions"]',h:"Upcoming transactions",p:"Recurring items that are due appear here, with those coming in the next 30 days. Press Post to add one to your transactions, or Post all due. Nothing is added automatically."},
+ nv("tx","Transactions","Add and manage every income, expense and bank–cash transfer."),
+ {t:"tx",s:"#fa",up:".card",h:"Add a transaction",p:"Enter the date, choose Income, Expense or Contra / Transfer, pick a category and Bank or Cash, type the amount, add an optional note and press Add. For a Contra / Transfer, choose the account the money leaves; the other account receives it. This tour adds nothing."},
+ {t:"tx",s:'#app [aria-label="Filters"]',up:"span",h:"Search and filters",p:"The magnifier opens a search box for note, category or amount. The funnel opens filters: type, Bank or Cash, category, date range and minimum or maximum amount. Filters work together, and Clear filters resets them."},
+ {t:"tx",s:"#tsum",h:"Your transaction list",p:"Shows how many entries match, with totals for income, expenses and transfers. The list covers the selected month unless you set a date range or search from the top bar. Each row has Edit and Delete icons."},
+ nv("cf","Cash Flow","A day-by-day statement of your bank and cash balances."),
+ {t:"cf",s:"#app .card",h:"Daily cash flow statement",p:"For every day of the selected month: opening balance, income, expenses, transfers and closing balance for Bank and Cash. Each day’s closing balance becomes the next day’s opening balance. A dash (–) means nil, or no balance before your opening balance date."},
+ nv("bs","Balance Sheet","What you own and what you owe on a chosen date."),
+ {t:"bs",s:"#app input[type=date]",up:".card",h:"Choose the date",p:"Pick the date for the statement. Balances are available from the opening balance dates you set in Settings."},
+ {t:"bs",s:".bs-grid",up:".card",h:"Assets, liabilities and net worth",p:"Assets are on the left and liabilities on the right, with net worth underneath. The heads shown, and any notes under them, are chosen in Settings under Balance sheet configuration."},
+ nv("inv","Investments","Money you have put into SIP and shares."),
+ {t:"inv",s:"#app .grid.card",h:"Investment summary",p:"Total invested in the SIP/Shares category, this month’s contribution and the number of entries. Below are your investment heads from the Balance Sheet, monthly contributions and recent investment entries."},
+ nv("rec","Recurring Transactions","Schedules for regular income or expenses such as SIPs, rent or subscriptions."),
+ {t:"rec",s:"#rn",up:".card",h:"Create a schedule",p:"Give it a name, choose Income or Expense, category, amount and Bank or Cash, then pick how often it repeats (daily to yearly). The start date is the first occurrence. You can add an optional end date; the next due date is calculated for you."},
+ {t:"rec",s:"#app > .card:nth-child(2)",h:"Your schedules",p:"Each schedule shows its next due date and status. Post adds a due entry to your transactions after you press it, and Post all due adds every due entry. You can also pause, edit or delete a schedule. Nothing is posted automatically."},
+ nv("rep","Reports","Monthly, yearly and category summaries."),
+ {t:"rep",s:"#app > .card:first-child",h:"Monthly summary",p:"Income, expenses, transfers, net savings and savings rate for the last 12 months, followed by a yearly summary and the income and expense categories for the selected month."},
+ nv("set","Settings","Set up your balances, categories, appearance and backups."),
+ {t:"set",s:"#ob",up:".card",h:"Opening balances",p:"Enter your opening Bank and Cash balances, each with the date it applies from. Only transactions on or after that date count for that account. Press Save opening balances after changing them."},
+ {t:"set",s:"#ci",up:".card",h:"Income and expense categories",p:"Type your income sources and expense categories separated by commas, then press Save. They appear in the Category list when you add a transaction. Keep SIP/Shares if you want it counted as an investment."},
+ {t:"set",s:"#add_a",up:".card",h:"Balance sheet configuration",p:"Choose assets and liabilities from the dropdown lists, link each one to an existing balance, add notes, and reorder them with the arrows. Each balance can be used by only one head, so nothing is counted twice."},
+ {t:"set",s:'.set select[onchange^="setTheme"]',up:".card",h:"Theme",p:"Choose Light Mode, Dark Blue Mode or System Default. Your choice is remembered on this device."},
+ {t:"set",s:"#bk",up:".card",h:"Backup and restore",p:"Press Show backup to copy your data as text, and paste a saved backup then press Restore to bring it back. Your data is stored only in this browser, so back it up regularly."},
+ {t:"set",s:"#tourbtn",up:".card",h:"Preferences and replay",p:"Choose which page opens first, erase all data, or press Replay Interactive Walkthrough to see this tour again whenever you like."}
+];
+let TA=0,TI=0,T0="dash",TT=0;
+const TK2="mf_tour",tourSt=()=>{try{return localStorage.getItem(TK2)}catch(e){return null}},tourSet=v=>{try{localStorage.setItem(TK2,v)}catch(e){}};
+const clampN=(v,a,b)=>Math.max(a,Math.min(b,v));
+function trDom(){if($("tr"))return;document.body.insertAdjacentHTML("beforeend",'<div id="tr" hidden><div id="tr-ov"></div><div id="tr-hl"></div><div id="tr-tip" role="dialog" aria-modal="true" aria-live="polite"></div></div><div id="tr-md" hidden></div>');
+  addEventListener("resize",trRe);addEventListener("scroll",trRe,true);addEventListener("keydown",trKey)}
+function trModal(k,html){trDom();const m=$("tr-md");m.dataset.k=k;m.innerHTML=`<div class="tr-card" role="dialog" aria-modal="true">${html}</div>`;m.hidden=false;const b=m.querySelector(".btn.p");if(b)b.focus()}
+function trWelcome(){tourSet("shown");trModal("w",`<div class="tr-ic">${ic("wallet",26)}</div><h2>Welcome to Finance Tracker</h2><p>Finance Tracker helps you record your income, expenses and transfers between bank and cash, and shows your balances, savings, net worth and trends in one place. Everything is stored privately in this browser.</p><p>Take a short interactive walkthrough of every page, or skip it and replay it later from Settings.</p>${S.tx.some(t=>t.s)?'<p class="k">Sample data for Nov and Dec 2026 is loaded so you can explore. You can remove it from the Dashboard at any time.</p>':""}<div class="tr-btns"><button class="btn" onclick="trSkipW()">Skip for Now</button><button class="btn p" onclick="startTour()">Start Interactive Walkthrough</button></div>`)}
+function trSkipW(){tourSet("skipped");$("tr-md").hidden=true}
+function startTour(){trDom();$("tr-md").hidden=true;TA=1;T0=V;$("tr").hidden=false;trShow(0)}
+function trShow(i){TI=i;const s=TS[i],nw=innerWidth<=860;
+  if(s.t&&V!==s.t){V=s.t;render();window.scrollTo(0,0)}
+  drawer(s.nav&&nw?1:0);
+  const L=TS.length;$("tr-tip").innerHTML=`<div class="tr-top"><span>Step ${i+1} of ${L}</span><button class="tr-exit" onclick="trExit()" aria-label="Exit Tour">${ic("x",14)} Exit Tour</button></div><div class="tr-bar"><i style="width:${(i+1)/L*100}%"></i></div><h3>${esc(s.h)}</h3><p>${esc(s.p)}</p><div class="tr-btns"><button class="btn" onclick="trSkip()">Skip Tour</button><span><button class="btn" onclick="trBack()" ${i?"":"disabled"}>Back</button><button class="btn p" id="tr-next" onclick="trNext()">${i===L-1?"Finish":"Next"}</button></span></div>`;
+  $("tr-hl").style.opacity=0;clearTimeout(TT);TT=setTimeout(()=>{trPlace(false);const n=$("tr-next");if(n)n.focus({preventScroll:true})},s.nav&&nw?260:70)}
+function trPlace(keep){if(!TA)return;const s=TS[TI],tip=$("tr-tip"),hl=$("tr-hl"),ov=$("tr-ov"),vw=innerWidth,vh=innerHeight;
+  let el=s.s?document.querySelector(s.s):null;if(el&&s.up)el=el.closest(s.up)||el;
+  if(el&&el.tagName==="DETAILS")el.open=true;
+  const tw=tip.offsetWidth,th=tip.offsetHeight;
+  if(!el||!el.getClientRects().length){hl.style.opacity=0;ov.classList.add("dim");tip.style.left=Math.max(12,(vw-tw)/2)+"px";tip.style.top=Math.max(12,(vh-th)/2)+"px";return}
+  ov.classList.remove("dim");
+  let r=el.getBoundingClientRect();
+  if(!keep&&(r.top<8||r.bottom>vh-8)){el.scrollIntoView({block:r.height>vh*.6?"start":"center"});r=el.getBoundingClientRect()}
+  const g=14,pd=6,hb=r=>({top:Math.max(r.top-pd,4),left:Math.max(r.left-pd,4),width:Math.min(r.width+2*pd,vw-8),height:r.height+2*pd});
+  let hr=hb(r);const cx=clampN(r.left+r.width/2-tw/2,12,vw-tw-12),cy=clampN(r.top+r.height/2-th/2,12,vh-th-12);
+  const O={bottom:{top:hr.top+hr.height+g,left:cx},top:{top:hr.top-g-th,left:cx},right:{top:cy,left:hr.left+hr.width+g},left:{top:cy,left:hr.left-g-tw}};
+  const fit=p=>p.top>=8&&p.top+th<=vh-8&&p.left>=8&&p.left+tw<=vw-8;let pos=null;
+  for(const k of vw>700?["bottom","right","top","left"]:["bottom","top"])if(fit(O[k])){pos=O[k];break}
+  if(!pos){if(!keep){scrollBy(0,r.top-16);r=el.getBoundingClientRect()}
+    hr=hb(r);hr.height=Math.max(60,Math.min(hr.height,vh-th-g-24-Math.max(hr.top,0)));
+    pos={top:Math.min(hr.top+hr.height+g,vh-th-8),left:cx}}
+  hl.style.cssText=`top:${hr.top}px;left:${hr.left}px;width:${hr.width}px;height:${hr.height}px;opacity:1`;tip.style.top=pos.top+"px";tip.style.left=pos.left+"px"}
+let TR=0;function trRe(){if(!TA)return;cancelAnimationFrame(TR);TR=requestAnimationFrame(()=>trPlace(true))}
+function trNext(){TI<TS.length-1?trShow(TI+1):trFinal("done")}
+function trBack(){if(TI>0)trShow(TI-1)}
+function trSkip(){trFinal("skipped")}
+function trHide(){TA=0;clearTimeout(TT);$("tr").hidden=true;drawer(0)}
+function trExit(){trHide();if(tourSt()!=="done")tourSet("skipped");if(V!==T0){V=T0;render();window.scrollTo(0,0)}}
+function trFinal(st){trHide();if(tourSt()!=="done"||st==="done")tourSet(st);trModal("f",`<div class="tr-ic">${ic("check",26)}</div><h2>You’re all set!</h2><p>You now know how to use your Finance Tracker.</p><div class="tr-btns"><span></span><button class="btn p" onclick="trDone()">Start Using Website</button></div>`)}
+function trDone(){$("tr-md").hidden=true;go("dash")}
+function trKey(e){const m=$("tr-md");if(m&&!m.hidden){if(e.key==="Escape")m.dataset.k==="w"?trSkipW():trDone();return}
+  if(!TA)return;if(e.key==="Escape")trExit();else if(e.key==="ArrowRight")trNext();else if(e.key==="ArrowLeft")trBack()}
 ensureBSC();
 if(!had)seed();
 render();
+if(!had&&!tourSt()&&typeof setTimeout==="function")setTimeout(trWelcome,350);
 </script></body></html>
